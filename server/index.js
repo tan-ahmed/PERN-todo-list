@@ -17,28 +17,44 @@ app.post("/todos", async (req, res) => {
     try {
         // console.log(req.body)
         // de-structure  this field from the body
-        const {description } = req.body;
+        const { description } = req.body;
         // add data - description is $1
         const newTodo = await pool.query("INSERT INTO todo (description) VALUES($1) RETURNING *", [description]);
         // RETURNING *  = > is used when insert/update data, and return it back
         res.json(newTodo.rows[0])
-    } catch (err){
+    } catch (err) {
         console.error(err.message);
     }
 })
 
 // ****** GET ALL TO DO'S  ****** //
-app.get("/todos", async(req,res) => {
+app.get("/todos", async (req, res) => {
     try {
         const allTodos = await pool.query("SELECT * FROM todo")
         res.json(allTodos.rows)
-    } catch (err){
+    } catch (err) {
         console.error(err.message)
     }
 })
 
 
 // ****** GET A TO DO  ****** //
+app.get("/todos/:id", async (req, res) => {
+    try {
+        // URL will contain variable ID
+        // console.log(req.params)
+
+        const { id } = req.params;
+        // WHERE clause specifies what you want
+        const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id])
+
+        res.json(todo.rows[0])
+
+
+    } catch (err) {
+        console.error(err.message)
+    }
+})
 
 
 
