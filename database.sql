@@ -6,7 +6,7 @@ CREATE TABLE todo(
     description VARCHAR(255)
 );
 
-SELECT * FROM todo;
+-- SELECT * FROM todo;
 
 
 
